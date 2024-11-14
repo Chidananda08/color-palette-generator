@@ -1,0 +1,18 @@
+.palette-container {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  .color-block {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  

@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import ColorPalette from './components/ColorPalette';
+import SavedPalettes from './components/SavedPalettes';
+import { generateRandomColor } from './utils';
 
-function App() {
+const App = () => {
+  const [currentPalette, setCurrentPalette] = useState([]);
+  const [savedPalettes, setSavedPalettes] = useState([]);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('savedPalettes'));
+    if (saved) setSavedPalettes(saved);
+  }, []);
+
+  const generatePalette = () => {
+    const newPalette = Array.from({ length: 5 }, generateRandomColor);
+    setCurrentPalette(newPalette);
+  };
+
+  const savePalette = () => {
+    const updatedPalettes = [...savedPalettes, currentPalette];
+    setSavedPalettes(updatedPalettes);
+    localStorage.setItem('savedPalettes', JSON.stringify(updatedPalettes));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1>Color Palette Generator</h1>
+      <button id="generateButton" onClick={generatePalette}>Generate Palette</button>
+      {currentPalette.length > 0 && (
+        <>
+          <ColorPalette palette={currentPalette} />
+          <button id="saveButton" onClick={savePalette}>Save Palette</button>
+        </>
+      )}
+      <SavedPalettes palettes={savedPalettes} />
     </div>
   );
-}
+};
 
 export default App;
